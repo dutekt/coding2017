@@ -1,6 +1,8 @@
 package com.coding2017.jvm.attr;
 
 import com.coding2017.jvm.clz.ClassFile;
+import com.coding2017.jvm.cmd.ByteCodeCommand;
+import com.coding2017.jvm.constant.ConstantPool;
 import com.coding2017.jvm.loader.ByteCodeIterator;
 
 public class CodeAttr extends AttributeInfo {
@@ -13,10 +15,12 @@ public class CodeAttr extends AttributeInfo {
         return code;
     }
 
-    // private ByteCodeCommand[] cmds ;
-    // public ByteCodeCommand[] getCmds() {
-    // return cmds;
-    // }
+    private ByteCodeCommand[] cmds;
+
+    public ByteCodeCommand[] getCmds() {
+        return cmds;
+    }
+
     private LineNumberTable lineNumTable;
     private LocalVariableTable localVarTable;
     private StackMapTable stackMapTable;
@@ -46,7 +50,7 @@ public class CodeAttr extends AttributeInfo {
         String code = iter.nextUxToHexString(codeLength);
         CodeAttr codeAttr = new CodeAttr(nameIndex, length, maxStack, maxLocals, codeLength, code);
         int exceptionTableLength = iter.nextU2ToInt();
-        if(exceptionTableLength > 0){
+        if (exceptionTableLength > 0) {
             String exTable = iter.nextUxToHexString(exceptionTableLength * 8);
             System.out.println("Encountered exception table , just ignore it :" + exTable);
 
@@ -70,4 +74,15 @@ public class CodeAttr extends AttributeInfo {
 
     }
 
+    public String toString(ConstantPool pool) {
+        StringBuilder buffer = new StringBuilder();
+        // buffer.append("Code:").append(code).append("\n");
+        for (int i = 0; i < cmds.length; i++) {
+            buffer.append(cmds[i].toString(pool)).append("\n");
+        }
+        buffer.append("\n");
+        buffer.append(this.lineNumTable.toString());
+        buffer.append(this.localVarTable.toString(pool));
+        return buffer.toString();
+    }
 }

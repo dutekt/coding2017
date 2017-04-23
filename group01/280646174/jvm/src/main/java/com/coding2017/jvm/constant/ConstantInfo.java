@@ -28,4 +28,21 @@ public abstract class ConstantInfo {
         return this.constantPool.getConstantInfo(index);
     }
 
+    public abstract void accept(Visitor visitor);
+
+    public interface Visitor {
+        void visitClassInfo(ClassInfo info);
+
+        void visitFieldRef(FieldRefInfo info);
+
+        void visitMethodRef(MethodRefInfo info);
+
+        void visitNameAndType(NameAndTypeInfo info);
+
+        void visitString(StringInfo info);
+
+        void visitUTF8(UTF8Info info);
+
+    }
+
 }
