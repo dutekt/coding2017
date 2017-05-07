@@ -42,6 +42,12 @@ public class CommandParser {
     public static final String iinc = "84";
 
     public static ByteCodeCommand[] parse(ClassFile clzFile, String codes) {
+        CommandIterator commandIterator = new CommandIterator(codes);
+        while (commandIterator.hasNext()) {
+            String opCode = commandIterator.next2CharAsString();
+
+        }
+
 
         return null;
     }

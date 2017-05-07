@@ -1,7 +1,7 @@
 package com.coding2017.jvm.cmd;
 
-import com.coderising.jvm.clz.ClassFile;
-import com.coderising.jvm.constant.ConstantPool;
+import com.coding2017.jvm.clz.ClassFile;
+import com.coding2017.jvm.constant.ConstantPool;
 
 public class InvokeSpecialCmd extends TwoOperandCmd {
 

@@ -2,6 +2,7 @@ package com.coding2017.jvm.attr;
 
 import com.coding2017.jvm.clz.ClassFile;
 import com.coding2017.jvm.cmd.ByteCodeCommand;
+import com.coding2017.jvm.cmd.CommandParser;
 import com.coding2017.jvm.constant.ConstantPool;
 import com.coding2017.jvm.loader.ByteCodeIterator;
 
@@ -26,13 +27,13 @@ public class CodeAttr extends AttributeInfo {
     private StackMapTable stackMapTable;
 
     public CodeAttr(int attrNameIndex, int attrLen, int maxStack, int maxLocals, int codeLen,
-            String code /* ByteCodeCommand[] cmds */) {
+            String code, ByteCodeCommand[] cmds) {
         super(attrNameIndex, attrLen);
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
         this.codeLen = codeLen;
         this.code = code;
-        // this.cmds = cmds;
+        this.cmds = cmds;
     }
 
     public void setLineNumberTable(LineNumberTable t) {
@@ -48,7 +49,9 @@ public class CodeAttr extends AttributeInfo {
         int maxLocals = iter.nextU2ToInt();
         int codeLength = iter.nextU4ToInt();
         String code = iter.nextUxToHexString(codeLength);
-        CodeAttr codeAttr = new CodeAttr(nameIndex, length, maxStack, maxLocals, codeLength, code);
+        ByteCodeCommand[] commands = CommandParser.parse(clzFile, code);
+
+        CodeAttr codeAttr = new CodeAttr(nameIndex, length, maxStack, maxLocals, codeLength, code, commands);
         int exceptionTableLength = iter.nextU2ToInt();
         if (exceptionTableLength > 0) {
             String exTable = iter.nextUxToHexString(exceptionTableLength * 8);

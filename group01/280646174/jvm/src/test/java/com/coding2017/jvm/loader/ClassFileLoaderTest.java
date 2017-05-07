@@ -218,26 +218,26 @@ public class ClassFileLoaderTest {
 
         {
             Method m = methods.get(0);
-            assertMethodEquals(pool, m, "<init>", "(Ljava/lang/String;I)V", "2ab7000c2a2bb5000f2a1cb50011b1");
+            assertMethodEquals(pool, m, "<init>", "(Ljava/lang/String;I)V", "2AB7000C2A2BB5000F2A1CB50011B1");
 
         }
         {
             Method m = methods.get(1);
-            assertMethodEquals(pool, m, "setName", "(Ljava/lang/String;)V", "2a2bb5000fb1");
+            assertMethodEquals(pool, m, "setName", "(Ljava/lang/String;)V", "2A2BB5000FB1");
 
         }
         {
             Method m = methods.get(2);
-            assertMethodEquals(pool, m, "setAge", "(I)V", "2a1bb50011b1");
+            assertMethodEquals(pool, m, "setAge", "(I)V", "2A1BB50011B1");
         }
         {
             Method m = methods.get(3);
-            assertMethodEquals(pool, m, "sayHello", "()V", "b2001c1222b60024b1");
+            assertMethodEquals(pool, m, "sayHello", "()V", "B2001C1222B60024B1");
 
         }
         {
             Method m = methods.get(4);
-            assertMethodEquals(pool, m, "main", "([Ljava/lang/String;)V", "bb000159122b101db7002d4c2bb6002fb1");
+            assertMethodEquals(pool, m, "main", "([Ljava/lang/String;)V", "BB000159122B101DB7002D4C2BB6002FB1");
         }
     }
 
