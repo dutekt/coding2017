@@ -56,6 +56,6 @@ public class MethodRefInfo extends ConstantInfo {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visitMethodRef(this);
+        visitor.visit(this);
     }
 }
