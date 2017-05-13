@@ -1,12 +1,12 @@
 package com.coding2017.jvm.clz;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.coding2017.jvm.constant.ClassInfo;
 import com.coding2017.jvm.constant.ConstantPool;
 import com.coding2017.jvm.field.Field;
 import com.coding2017.jvm.method.Method;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClassFile {
 
@@ -112,12 +112,16 @@ public class ClassFile {
     }
 
     public Method getMethod(String methodName, String paramAndReturnType) {
-
+        for (Method method : methods) {
+            if (getConstantPool().getUTF8String(method.getNameIndex()).equals(methodName)
+                    && getConstantPool().getUTF8String(method.getDescriptorIndex()).equals(paramAndReturnType)) {
+                return method;
+            }
+        }
         return null;
     }
 
     public Method getMainMethod() {
-
-        return null;
+        return getMethod("main", "([Ljava/lang/String;)V");
     }
 }

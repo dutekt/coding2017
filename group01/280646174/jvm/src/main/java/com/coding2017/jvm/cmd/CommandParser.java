@@ -1,8 +1,11 @@
 package com.coding2017.jvm.cmd;
 
-import com.coding2017.jvm.clz.ClassFile;
-
 import java.util.List;
+import java.util.Set;
+
+import com.coding2017.jvm.clz.ClassFile;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 
 public class CommandParser {
 
@@ -41,15 +44,64 @@ public class CommandParser {
     public static final String iadd = "60";
     public static final String iinc = "84";
 
+    public static final Set<String> NoOperandCmds = ImmutableSet.<String> builder().add(dup).add(aload_0).add(aload_1)
+            .add(aload_2).add(iload_1).add(iload_2).add(iload_3).add(fload_3).add(astore_1).add(voidreturn).build();
+
     public static ByteCodeCommand[] parse(ClassFile clzFile, String codes) {
         CommandIterator commandIterator = new CommandIterator(codes);
+        List<ByteCodeCommand> commands = Lists.newArrayList();
         while (commandIterator.hasNext()) {
             String opCode = commandIterator.next2CharAsString();
-
+            if (bipush.equals(opCode)) {
+                BiPushCmd cmd = new BiPushCmd(clzFile, opCode);
+                cmd.setOperand(commandIterator.next2CharAsInt());
+                commands.add(cmd);
+            } else if (getfield.equals(opCode)) {
+                GetFieldCmd cmd = new GetFieldCmd(clzFile, opCode);
+                cmd.setOprand1(commandIterator.next2CharAsInt());
+                cmd.setOprand2(commandIterator.next2CharAsInt());
+                commands.add(cmd);
+            } else if (getstatic.equals(opCode)) {
+                GetStaticFieldCmd cmd = new GetStaticFieldCmd(clzFile, opCode);
+                cmd.setOprand1(commandIterator.next2CharAsInt());
+                cmd.setOprand2(commandIterator.next2CharAsInt());
+                commands.add(cmd);
+            } else if (invokespecial.equals(opCode)) {
+                InvokeSpecialCmd cmd = new InvokeSpecialCmd(clzFile, opCode);
+                cmd.setOprand1(commandIterator.next2CharAsInt());
+                cmd.setOprand2(commandIterator.next2CharAsInt());
+                commands.add(cmd);
+            } else if (invokevirtual.equals(opCode)) {
+                InvokeVirtualCmd cmd = new InvokeVirtualCmd(clzFile, opCode);
+                cmd.setOprand1(commandIterator.next2CharAsInt());
+                cmd.setOprand2(commandIterator.next2CharAsInt());
+                commands.add(cmd);
+            } else if (ldc.equals(opCode)) {
+                LdcCmd cmd = new LdcCmd(clzFile, opCode);
+                cmd.setOperand(commandIterator.next2CharAsInt());
+                commands.add(cmd);
+            } else if (new_object.equals(opCode)) {
+                NewObjectCmd cmd = new NewObjectCmd(clzFile, opCode);
+                cmd.setOprand1(commandIterator.next2CharAsInt());
+                cmd.setOprand2(commandIterator.next2CharAsInt());
+                commands.add(cmd);
+            } else if (putfield.equals(opCode)) {
+                PutFieldCmd cmd = new PutFieldCmd(clzFile, opCode);
+                cmd.setOprand1(commandIterator.next2CharAsInt());
+                cmd.setOprand2(commandIterator.next2CharAsInt());
+                commands.add(cmd);
+            } else if (NoOperandCmds.contains(opCode)) {
+                NoOperandCmd cmd = new NoOperandCmd(clzFile, opCode);
+                commands.add(cmd);
+            } else {
+                throw new RuntimeException("this command " + opCode + " has not be implemented");
+            }
         }
 
+        calcuateOffset(commands);
 
-        return null;
+        ByteCodeCommand[] commandArray = new ByteCodeCommand[commands.size()];
+        return commands.toArray(commandArray);
     }
 
     private static void calcuateOffset(List<ByteCodeCommand> cmds) {
