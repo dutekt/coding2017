@@ -4,6 +4,8 @@ import com.coding2017.jvm.clz.ClassFile;
 import com.coding2017.jvm.constant.ConstantInfo;
 import com.coding2017.jvm.constant.ConstantPool;
 import com.coding2017.jvm.constant.StringInfo;
+import com.coding2017.jvm.engine.ExecutionResult;
+import com.coding2017.jvm.engine.StackFrame;
 
 public class LdcCmd extends OneOperandCmd {
 
@@ -26,4 +28,8 @@ public class LdcCmd extends OneOperandCmd {
 
     }
 
+    @Override
+    public void execute(StackFrame frame, ExecutionResult result) {
+
+    }
 }

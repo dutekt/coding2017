@@ -2,6 +2,8 @@ package com.coding2017.jvm.cmd;
 
 import com.coding2017.jvm.clz.ClassFile;
 import com.coding2017.jvm.constant.ConstantPool;
+import com.coding2017.jvm.engine.ExecutionResult;
+import com.coding2017.jvm.engine.StackFrame;
 
 public class NoOperandCmd extends ByteCodeCommand {
 
@@ -18,4 +20,8 @@ public class NoOperandCmd extends ByteCodeCommand {
         return 1;
     }
 
+    @Override
+    public void execute(StackFrame frame, ExecutionResult result) {
+
+    }
 }

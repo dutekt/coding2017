@@ -3,6 +3,8 @@ package com.coding2017.jvm.cmd;
 import com.coding2017.jvm.clz.ClassFile;
 import com.coding2017.jvm.constant.ConstantInfo;
 import com.coding2017.jvm.constant.ConstantPool;
+import com.coding2017.jvm.engine.ExecutionResult;
+import com.coding2017.jvm.engine.StackFrame;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -116,5 +118,5 @@ public abstract class ByteCodeCommand {
         return txt;
     }
 
-    // public abstract void execute(StackFrame frame,FrameResult result);
+     public abstract void execute(StackFrame frame, ExecutionResult result);
 }
